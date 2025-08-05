@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            color: white;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+        }
+        .stats-bar {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .add-user-btn {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .add-user-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245,87,108,0.4);
+        }
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .user-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .user-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .user-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+        .user-info {
+            padding: 25px;
+        }
+        .user-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            position: relative;
+        }
+        .user-avatar::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #4CAF50;
+            border-radius: 50%;
+            bottom: 2px;
+            right: 2px;
+            border: 3px solid white;
+        }
+        .user-details h3 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .user-email {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        .user-id {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+        .user-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .btn-edit {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+        .btn-delete {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+        .empty-state h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        .empty-state p {
+            opacity: 0.6;
+            margin-bottom: 30px;
+        }
+        @media (max-width: 768px) {
+            .users-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .stats-bar {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👥 Users Dashboard</h1>
+            <p class="subtitle">Manage your user community</p>
+        </div>
+        
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number"><%=data.length%></div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">🟢</div>
+                <div class="stat-label">All Active</div>
+            </div>
+            <a href="/users/new" class="add-user-btn">+ Add New User</a>
+        </div>
+
+        <% if(data.length === 0) { %>
+            <div class="empty-state">
+                <h2>No users found</h2>
+                <p>Start by adding your first user to the system</p>
+                <a href="/users/new" class="add-user-btn">Create First User</a>
+            </div>
+        <% } else { %>
+            <div class="users-grid">
+                <% for(let user of data) { %>
+                    <div class="user-card">
+                        <div class="user-info">
+                            <div class="user-header">
+                                <div class="user-avatar">
+                                    <%=user.username.charAt(0).toUpperCase()%>
+                                </div>
+                                <div class="user-details">
+                                    <h3><%=user.username%></h3>
+                                    <div class="user-email">📧 <%=user.email%></div>
+                                </div>
+                            </div>
+                            <div class="user-id">ID: <%=user.id.substring(0,8)%>...</div>
+                            <div class="user-actions">
+                                <form method="get" action="/user/<%=user.id%>/edit" style="flex: 1;">
+                                    <button class="btn btn-edit">✏️ Edit</button>
+                                </form>
+                                <form method="post" action="/user/<%=user.id%>?_method=DELETE" style="flex: 1;">
+                                    <button class="btn btn-delete" onclick="return confirm('⚠️ Are you sure you want to delete <%=user.username%>?')">🗑️ Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>
