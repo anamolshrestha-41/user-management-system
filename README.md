@@ -20,19 +20,6 @@ A modern, full-stack web application for managing users with CRUD operations, bu
 - **Data Generation**: Faker.js for generating UUIDs
 - **HTTP Methods**: Method-override for RESTful routes
 
-## 📁 Project Structure
-
-```
-taskCodes/
-├── views/
-│   ├── home.ejs          # Landing page with user count
-│   ├── users.ejs         # Users dashboard with grid layout
-│   ├── Adduser.ejs       # Add new user form
-│   └── editForm.ejs      # Edit user profile form
-├── index.js              # Main server file
-└── README.md
-```
-
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -91,17 +78,6 @@ taskCodes/
 - Parameterized SQL queries to prevent SQL injection
 - Password confirmation for user updates
 - Form validation and error handling
-
-## 📚 Learning Outcomes
-
-This project demonstrates:
-- Full-stack web development with Node.js and MySQL
-- RESTful API design and implementation
-- Modern CSS techniques and responsive design
-- Database operations and security best practices
-- Template rendering with EJS
-
----
 
 ## 🙏 Credits
 
